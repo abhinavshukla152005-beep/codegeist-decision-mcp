@@ -76,7 +76,8 @@ modules:
           title: Project key
           type: string
           required: false
-          description: Restrict to one Jira project. Defaults to every project the caller can see.
+          description: Restrict to one Jira project. Defaults to every project the caller
+            can see.
     - key: draft-status-update
       name: Draft a status update
       function: draftStatusUpdateTool
@@ -97,15 +98,15 @@ modules:
           description: How far back to look. Defaults to 7.
   function:
     - key: findDecisions
-      handler: src.findDecisions
+      handler: index.findDecisions
     - key: explainIssue
-      handler: src.explainIssue
+      handler: index.explainIssue
     - key: whoOwns
-      handler: src.whoOwns
+      handler: index.whoOwns
     - key: blockedWork
-      handler: src.blockedWork
+      handler: index.blockedWork
     - key: draftStatusUpdateTool
-      handler: src.draftStatusUpdateTool
+      handler: index.draftStatusUpdateTool
 permissions:
   scopes:
     - read:jira-work
@@ -115,4 +116,4 @@ app:
     name: nodejs24.x
     memoryMB: 256
     architecture: arm64
-  id: <your app id>
+  id: ari:cloud:ecosystem::app/e58af217-8e82-4345-89ba-24ab5d85cc45
