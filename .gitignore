@@ -1,3 +1,5 @@
 node_modules/
 .forge/
 *.log
+demo/output.json
+*.mp4

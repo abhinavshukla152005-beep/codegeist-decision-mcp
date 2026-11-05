@@ -29,7 +29,7 @@ async function searchIssues(jql, maxResults) {
 }
 
 function areaClause(projectKey) {
-  return projectKey ? `project = "${escapeJqlValue(projectKey)}" ` : "";
+  return projectKey ? `project = "${escapeJqlValue(projectKey)}" AND ` : "";
 }
 
 function formatDecisions(results) {

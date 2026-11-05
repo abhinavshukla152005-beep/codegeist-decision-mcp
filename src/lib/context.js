@@ -148,12 +148,12 @@ export function groupBlockers(issues) {
 
   for (const issue of issues || []) {
     const links = issue?.fields?.issuelinks || [];
-    const blockers = links.filter((l) => /is blocked by/i.test(l?.type?.inward || ""));
+    // Only the "is blocked by" side names a blocker; the other side merely blocks something else.
+    const blockers = links.filter((l) => /is blocked by/i.test(l?.type?.inward || "") && l?.inwardIssue?.key);
     if (!blockers.length) continue;
 
     for (const link of blockers) {
-      const blocker = link.inwardIssue || link.outwardIssue;
-      if (!blocker?.key) continue;
+      const blocker = link.inwardIssue;
 
       const reason = blocker?.fields?.status?.name || "unknown status";
       const bucket = groups.get(reason) || { reason, blocked: [] };

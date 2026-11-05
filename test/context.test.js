@@ -163,6 +163,19 @@ test("groupBlockers buckets by blocker status", () => {
   assert.equal(groups[0].blocked.length, 2);
 });
 
+test("groupBlockers ignores the blocking side of a Blocks link", () => {
+  const blocker = issue({
+    key: "TEAM-1",
+    issuelinks: [
+      {
+        type: { outward: "blocks", inward: "is blocked by" },
+        outwardIssue: { key: "TEAM-2", fields: { summary: "Beta launch", status: { name: "Open" } } },
+      },
+    ],
+  });
+  assert.deepEqual(groupBlockers([blocker]), []);
+});
+
 test("groupBlockers ignores non-blocking links", () => {
   const relates = issue({
     issuelinks: [{ type: { outward: "relates to" }, outwardIssue: { key: "TEAM-4", fields: {} } }],
