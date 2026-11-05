@@ -1,0 +1,118 @@
+modules:
+  rovo:mcp:
+    - key: decision-keeper-mcp
+      name: Decision Keeper MCP
+      tools:
+        - find-decisions
+        - explain-issue
+        - who-owns
+        - blocked-work
+        - draft-status-update
+  action:
+    - key: find-decisions
+      name: Find decisions
+      function: findDecisions
+      actionVerb: GET
+      description: >
+        Searches Jira issues and their comments for substantive decisions
+        (agreements, rejections, trade-offs) about a topic, and returns each
+        decision with its author, date and issue link.
+      inputs:
+        query:
+          title: Topic
+          type: string
+          required: true
+          description: What to search for, for example "billing queue" or "auth migration".
+        projectKey:
+          title: Project key
+          type: string
+          required: false
+          description: Restrict the search to one Jira project, for example TEAM.
+        limit:
+          title: Max issues
+          type: number
+          required: false
+          description: How many issues to scan, 1-50. Defaults to 20.
+    - key: explain-issue
+      name: Explain an issue
+      function: explainIssue
+      actionVerb: GET
+      description: >
+        Returns one issue's current status, assignee and the decision comments
+        that explain why it looks the way it does.
+      inputs:
+        issueKey:
+          title: Issue key
+          type: string
+          required: true
+          description: The Jira issue key, for example TEAM-123.
+    - key: who-owns
+      name: Who owns this
+      function: whoOwns
+      actionVerb: GET
+      description: >
+        Ranks the people most likely to own an area by recent assignment
+        activity, so an agent can route a question to a human.
+      inputs:
+        query:
+          title: Topic
+          type: string
+          required: true
+          description: The area to look for, for example "payments" or "onboarding".
+        projectKey:
+          title: Project key
+          type: string
+          required: false
+          description: Restrict to one Jira project, for example TEAM.
+    - key: blocked-work
+      name: Find blocked work
+      function: blockedWork
+      actionVerb: GET
+      description: >
+        Lists unfinished issues that are blocked, grouped by the status of the
+        blocking issue, with assignees so the block can be chased.
+      inputs:
+        projectKey:
+          title: Project key
+          type: string
+          required: false
+          description: Restrict to one Jira project. Defaults to every project the caller can see.
+    - key: draft-status-update
+      name: Draft a status update
+      function: draftStatusUpdateTool
+      actionVerb: GET
+      description: >
+        Drafts a plain-text status update grouped by status from issues updated
+        in the last N days. Always shown to a human for editing before sending.
+      inputs:
+        projectKey:
+          title: Project key
+          type: string
+          required: false
+          description: Restrict to one Jira project.
+        sinceDays:
+          title: Window in days
+          type: number
+          required: false
+          description: How far back to look. Defaults to 7.
+  function:
+    - key: findDecisions
+      handler: src.findDecisions
+    - key: explainIssue
+      handler: src.explainIssue
+    - key: whoOwns
+      handler: src.whoOwns
+    - key: blockedWork
+      handler: src.blockedWork
+    - key: draftStatusUpdateTool
+      handler: src.draftStatusUpdateTool
+permissions:
+  scopes:
+    - read:jira-work
+    - read:jira-user
+app:
+  runtime:
+    name: nodejs24.x
+    memoryMB: 256
+    architecture: arm64
+  id: <your app id>

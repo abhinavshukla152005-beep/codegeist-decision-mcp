@@ -1,0 +1,13 @@
+{
+  "name": "codegeist-decision-mcp",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Rovo MCP tools that explain why a team's work changed, grounded in Jira decisions.",
+  "scripts": {
+    "test": "node --test"
+  },
+  "dependencies": {
+    "@forge/api": "^6.0.0"
+  }
+}
