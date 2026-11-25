@@ -44,16 +44,25 @@ write path and no stored copy of customer data.
 `src/index.js` wires those functions to the Jira REST API. It is thin on
 purpose: permissions, HTTP and formatting only.
 
-## Local verification
+## Verification
 
 ```bash
-npm test        # 17 tests, no network or Atlassian account needed
+npm test        # 18 tests, no network or Atlassian account needed
 ```
 
-`forge lint` validates the manifest (the only expected error before
-registration is the `<your app id>` placeholder).
+## Try it in three minutes
 
-## Deploy (needs your Atlassian account — one time)
+1. Open the installation link, pick a Jira site, approve:
+   <https://developer.atlassian.com/console/install/e58af217-8e82-4345-89ba-24ab5d85cc45>
+2. App id: `ari:cloud:ecosystem::app/e58af217-8e82-4345-89ba-24ab5d85cc45`.
+3. In Rovo Studio create a custom agent and add these five tools — or point any
+   MCP client at `https://mcp.atlassian.com/forge/e58af217-8e82-4345-89ba-24ab5d85cc45`
+   (an org admin has to enable external MCP access first).
+4. Ask it: "What did we decide about <a topic from your own Jira>?"
+
+A two-minute demo run against a real Jira site: <https://youtu.be/onhw2H3oJUQ>
+
+## Deploy your own copy
 
 ```bash
 npm install -g @forge/cli@latest
@@ -64,24 +73,11 @@ forge install --site <your-site>.atlassian.net --product jira
 forge deploy
 ```
 
-Then in Rovo Studio: create a custom agent, add these five tools, and ask it
-"what did we decide about <topic>?". For third-party clients, the MCP
-endpoint is `https://mcp.atlassian.com/forge/<appId>` — an org admin must
-enable external MCP access first.
-
-## Submission checklist (deadline 22 Dec 2026, 3:00pm EST)
-
-- [ ] Deploy, then paste an **installation link** for judges (Forge → Start sharing your app).
-- [ ] Demo video under 5 minutes, public on YouTube. Must show a real Jira comment being found and cited, not a mock.
-- [ ] Submit to the **Atlassian MCP** bonus category and the **Rovo agents** bonus category.
-- [ ] If time allows, publish to Marketplace — that unlocks the fourth bonus category.
-- [ ] Submit early: the 300 participation prizes are first-come-first-served.
-
 ## Judging map
 
 | Criterion | Where it shows up |
 | --- | --- |
-| Technological implementation | Real Jira API calls, `asUser` scoping, 17 passing tests |
+| Technological implementation | Real Jira REST calls, `api.asUser()` scoping, 18 passing tests over the pure logic |
 | Design | Five narrow tools with plain-language descriptions agents can pick correctly |
 | Potential impact | Answers the question every engineering org asks daily |
 | Innovation | Decision archaeology + citations, not another summariser |
